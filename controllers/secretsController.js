@@ -1,6 +1,5 @@
 const db = require('../database/database.js');
 
-
 const getAll = (ctx) => {
     return new Promise( async (resolve, reject) => {
         console.log('all keys endpoint hit');
@@ -55,8 +54,31 @@ const put = (ctx) => {
     });
 }
 
+const deleteKey = (ctx) => {
+    return new Promise( (resolve, reject) => {
+        const { key } = ctx.request.body;
+        if ( key === undefined ) {
+            ctx.status = 500;
+            ctx.body = 'invalid input';
+            return reject();
+        }
+        db.del(key, (error) => {
+            if ( error ) {
+                console.log(error);
+                ctx.status = 500;
+                ctx.body = 'key not found';
+                reject();
+            }
+            ctx.status = 200;
+            ctx.body = 'ok';
+            resolve();
+        });
+    });
+}
+
 module.exports = {
     get,
     put,
+    deleteKey,
     getAll
 };
