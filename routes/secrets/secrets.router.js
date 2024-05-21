@@ -7,7 +7,7 @@ const secretsRouter = require('koa-router')({
     prefix: '/secrets'
 });
 
-//secretsRouter.get('/', auth(), secretsController.getAll, error_handler());
+secretsRouter.get('/', auth(), secretsController.getAll);
 secretsRouter.get('/get/:key', auth(), secretsController.get, error_handler());
 secretsRouter.post('/set', auth(), secretsController.put, error_handler());
 //secretsRouter.delete('/delete/:key', auth(), secretsController.delete, error_handler());

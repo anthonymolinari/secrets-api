@@ -1,7 +1,5 @@
 module.exports = () => {
-    return (error) => {
-        console.log('error handler: ', error);
+    return async (ctx) => {
         ctx.status = 500;
-        ctx.body = error;
     }
 }
