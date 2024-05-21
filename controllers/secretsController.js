@@ -20,7 +20,6 @@ const get = (ctx) => {
                 reject(1);
             }
             ctx.status = 200;
-            console.log(value);
             ctx.body = {
                 key: key,
                 value: value
