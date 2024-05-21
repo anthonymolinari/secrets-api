@@ -1,7 +1,6 @@
 const secretsController = require('../../controllers/secretsController.js');
 
 const auth = require('../../middleware/auth.js');
-const error_handler = require('../../utils/errorHandler.js');
 
 const secretsRouter = require('koa-router')({
     prefix: '/secrets'
