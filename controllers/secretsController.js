@@ -1,26 +1,23 @@
 const db = require('../database/database.js');
 
 const getAll = (ctx) => {
-    return new Promise( async (resolve, reject) => {
-        console.log('all keys endpoint hit');
+    return new Promise( async (resolve, __) => {
         const keys = await db.keys().all();
-        console.log(keys);
         ctx.status = 200;
         ctx.body = keys;
-        resolve();
-    })
+        resolve(0);
+    });
 }
 
 const get = (ctx) => {
     return new Promise( (resolve, reject) => {
         const key = ctx.request.params.key;
-        console.log('lookup key: ', key);
         db.get( key, (error, value) => {
             if (error) {
                 console.log(error);
                 ctx.status = 500;
                 ctx.body = 'key not found';
-                reject();
+                reject(1);
             }
             ctx.status = 200;
             console.log(value);
@@ -28,7 +25,7 @@ const get = (ctx) => {
                 key: key,
                 value: value
             };
-            resolve();
+            resolve(0);
         });
     });
 }
@@ -39,7 +36,7 @@ const put = (ctx) => {
         if ( key === undefined || value === undefined) {
             ctx.status = 500;
             ctx.body = 'invalid input';
-            return reject();
+            return reject(1);
         }
 
         db.put(key, value, (error) => {
@@ -49,29 +46,29 @@ const put = (ctx) => {
             }
             ctx.status = 200;
             ctx.body = 'ok';
-            resolve();
+            resolve(0);
         });
     });
 }
 
 const deleteKey = (ctx) => {
     return new Promise( (resolve, reject) => {
-        const { key } = ctx.request.body;
+        const { key } = ctx.request.params;
         if ( key === undefined ) {
             ctx.status = 500;
             ctx.body = 'invalid input';
-            return reject();
+            reject(1);
         }
         db.del(key, (error) => {
             if ( error ) {
                 console.log(error);
                 ctx.status = 500;
                 ctx.body = 'key not found';
-                reject();
+                reject(2);
             }
             ctx.status = 200;
             ctx.body = 'ok';
-            resolve();
+            resolve(0);
         });
     });
 }
